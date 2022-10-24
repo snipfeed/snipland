@@ -13,3 +13,7 @@ export default async function handler(
     return res.status(500).json({ message: error.message });
   }
 }
+
+export const config = {
+  runtime: 'experimental-edge', // for Edge API Routes only
+};
