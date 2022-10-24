@@ -1,4 +1,6 @@
 const creatorLinkFragment = `
+fragment creatorLinkFragment on CreatorLink {
+  id
   username
   isDisabled
   profile {
