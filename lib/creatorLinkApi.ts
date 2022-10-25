@@ -6,6 +6,9 @@ fragment creatorLinkFragment on CreatorLink {
   profile {
     name
     description
+    avatar {
+      url
+    }
   }
 }
 `;

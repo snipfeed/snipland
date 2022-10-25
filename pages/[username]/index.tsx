@@ -1,5 +1,7 @@
 import { GetStaticPropsContext } from 'next';
+import { cloudflareLoader } from '../../lib/cloudflareImageLoader';
 import { getCreatorLinkByUsername } from '../../lib/creatorLinkApi';
+import Image from 'next/image'
 
 interface LinkPageProps {
   creatorLink: any;
@@ -8,6 +10,13 @@ interface LinkPageProps {
 function LinkPage({ creatorLink }: LinkPageProps) {
   return (
     <>
+    <Image
+      loader={cloudflareLoader}
+      src={creatorLink.profile?.avatar?.url}
+      alt="Picture of the creator"
+      width={100}
+      height={100}
+    />
         <p>@{creatorLink?.username}</p>
         <h2>{creatorLink?.profile?.name}</h2>
         <h3>{creatorLink?.profile?.description}</h3>
