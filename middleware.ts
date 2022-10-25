@@ -21,19 +21,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Get hostname of request (e.g. demo.vercel.pub)
-  const hostname = req.headers.get('host');
-  if (!hostname) {
-    return new Response(null, {
-      status: 400,
-      statusText: 'No hostname found in request headers',
-    });
-  }
-
-  if (pathname.startsWith('/_sites')) {
-    return new Response(null, {
-      status: 404,
-    });
-  }
+  const hostname = req.headers.get('host') ?? '';
 
   const currentHost = hostname
     .replace(`.${mainDomain}`, '')
@@ -42,14 +30,17 @@ export function middleware(req: NextRequest) {
   const isPublicAssetRoute = isPublicAsset(pathname);
   const isNextPathRoute = isNextPath(pathname);
   const isApiRoute = pathname.startsWith('/api');
-  if (!isApiRoute && !isPublicAssetRoute && !isNextPathRoute) {
-    if (hostname === mainDomain || secondaryDomainNamesPattern.test(hostname)) {
-      url.pathname = pathname;
-      return NextResponse.rewrite(url);
-    }
-
-    url.pathname = `/_sites/${currentHost}${pathname}`;
-    return NextResponse.rewrite(url);
+  if (pathname === '/test-middleware') {
+    return NextResponse.json({
+      test1: hostname === mainDomain,
+      test2: secondaryDomainNamesPattern.test(hostname),
+      isPublicAssetRoute,
+      isNextPathRoute,
+      isApiRoute,
+      currentHost,
+      hostname,
+      url: url.toString(),
+    });
   }
 
   return NextResponse.next();
