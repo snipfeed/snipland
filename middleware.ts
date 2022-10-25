@@ -86,32 +86,7 @@ export function middleware(req: NextRequest) {
   }
 
   if (hostname === mainDomain || secondaryDomainNamesPattern.test(hostname)) {
-    if (isMatchingPagePaths(pathname, websitePagePaths)) {
-      return NextResponse.rewrite(
-        new URL(
-          pathname,
-          process.env.WEBSITE_URL || 'https://website.snipfeed.co'
-        )
-      );
-    }
-
-    if (isMatchingPagePaths(pathname, marketplacePagePaths)) {
-      return NextResponse.rewrite(
-        new URL(
-          pathname,
-          process.env.MARKETPLACE_URL || 'https://marketplace.snipfeed.co'
-        )
-      );
-    }
-
-    if (isMatchingPagePaths(pathname, customersPagePath)) {
-      return NextResponse.rewrite(
-        new URL(
-          pathname,
-          process.env.CUSTOMERS_URL || 'https://customers.snipfeed.co'
-        )
-      );
-    }
+    return NextResponse.next();
   }
 
   const currentHost = hostname
