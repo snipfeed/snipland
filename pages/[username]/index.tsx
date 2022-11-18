@@ -1,5 +1,5 @@
-import { GetStaticPropsContext } from 'next';
 import { getCreatorLinkByUsername } from '../../lib/creatorLinkApi';
+import { GetServerSidePropsContext } from 'next'
 
 interface LinkPageProps {
   creatorLink: any;
@@ -16,7 +16,7 @@ function LinkPage({ creatorLink }: LinkPageProps) {
   );
 }
 
-export async function getStaticProps({ params }: GetStaticPropsContext) {
+export async function getServerSideProps({ params }: GetServerSidePropsContext)  {
   const creatorLink = await getCreatorLinkByUsername(
     params!.username as string
   );
@@ -35,11 +35,6 @@ export async function getStaticProps({ params }: GetStaticPropsContext) {
   };
 }
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
-}
+
 
 export default LinkPage;
